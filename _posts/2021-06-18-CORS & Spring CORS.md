@@ -306,6 +306,157 @@ public CorsFilter corsFilter() {
 
 
 
+## 问题记录
+
+### Gateway重复配置
+
+问题：在微服务改造过程中可能会存在网关与应用服务都存在`CORS`配置情况，此时浏览器会因为重复的`CORS header`而出现不能正确处理的情况。（The 'Access-Control-Allow-Origin' header contains multiple values 'xxx, xxx', but only one is allowed）
+
+解决：`Spring Cloud Gateway` 提供了[DedupeResponseHeaderGatewayFilterFactory](https://github.com/spring-cloud/spring-cloud-gateway/blob/main/spring-cloud-gateway-server/src/main/java/org/springframework/cloud/gateway/filter/factory/DedupeResponseHeaderGatewayFilterFactory.java)以解决Response Header重复问题。
+
+```java
+/*
+Use case: Both your legacy backend and your API gateway add CORS header values. So, your consumer ends up with
+          Access-Control-Allow-Credentials: true, true
+          Access-Control-Allow-Origin: https://musk.mars, https://musk.mars
+(The one from the gateway will be the first of the two.) To fix, add
+          DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+Configuration parameters:
+- name
+    String representing response header names, space separated. Required.
+- strategy
+	RETAIN_FIRST - Default. Retain the first value only.
+	RETAIN_LAST - Retain the last value only.
+	RETAIN_UNIQUE - Retain all unique values in the order of their first encounter.
+Example 1
+      default-filters:
+      - DedupeResponseHeader=Access-Control-Allow-Credentials
+Response header Access-Control-Allow-Credentials: true, false
+Modified response header Access-Control-Allow-Credentials: true
+Example 2
+      default-filters:
+      - DedupeResponseHeader=Access-Control-Allow-Credentials, RETAIN_LAST
+Response header Access-Control-Allow-Credentials: true, false
+Modified response header Access-Control-Allow-Credentials: false
+Example 3
+      default-filters:
+      - DedupeResponseHeader=Access-Control-Allow-Credentials, RETAIN_UNIQUE
+Response header Access-Control-Allow-Credentials: true, true
+Modified response header Access-Control-Allow-Credentials: true
+ */
+
+/**
+ * @author Vitaliy Pavlyuk
+ */
+public class DedupeResponseHeaderGatewayFilterFactory
+		extends AbstractGatewayFilterFactory<DedupeResponseHeaderGatewayFilterFactory.Config> {
+
+	private static final String STRATEGY_KEY = "strategy";
+
+	public DedupeResponseHeaderGatewayFilterFactory() {
+		super(Config.class);
+	}
+
+	@Override
+	public List<String> shortcutFieldOrder() {
+		return Arrays.asList(NAME_KEY, STRATEGY_KEY);
+	}
+
+	@Override
+	public GatewayFilter apply(Config config) {
+		return new GatewayFilter() {
+			@Override
+			public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+				return chain.filter(exchange)
+						.then(Mono.fromRunnable(() -> dedupe(exchange.getResponse().getHeaders(), config)));
+			}
+
+			@Override
+			public String toString() {
+				return filterToStringCreator(DedupeResponseHeaderGatewayFilterFactory.this)
+						.append(config.getName(), config.getStrategy()).toString();
+			}
+		};
+	}
+
+	public enum Strategy {
+
+		/**
+		 * Default: Retain the first value only.
+		 */
+		RETAIN_FIRST,
+
+		/**
+		 * Retain the last value only.
+		 */
+		RETAIN_LAST,
+
+		/**
+		 * Retain all unique values in the order of their first encounter.
+		 */
+		RETAIN_UNIQUE
+
+	}
+
+	void dedupe(HttpHeaders headers, Config config) {
+		String names = config.getName();
+		Strategy strategy = config.getStrategy();
+		if (headers == null || names == null || strategy == null) {
+			return;
+		}
+		for (String name : names.split(" ")) {
+			dedupe(headers, name.trim(), strategy);
+		}
+	}
+
+	private void dedupe(HttpHeaders headers, String name, Strategy strategy) {
+		List<String> values = headers.get(name);
+		if (values == null || values.size() <= 1) {
+			return;
+		}
+		switch (strategy) {
+		case RETAIN_FIRST:
+			headers.set(name, values.get(0));
+			break;
+		case RETAIN_LAST:
+			headers.set(name, values.get(values.size() - 1));
+			break;
+		case RETAIN_UNIQUE:
+			headers.put(name, new ArrayList<>(new LinkedHashSet<>(values)));
+			break;
+		default:
+			break;
+		}
+	}
+
+	public static class Config extends AbstractGatewayFilterFactory.NameConfig {
+
+		private Strategy strategy = Strategy.RETAIN_FIRST;
+
+		public Strategy getStrategy() {
+			return strategy;
+		}
+
+		public Config setStrategy(Strategy strategy) {
+			this.strategy = strategy;
+			return this;
+		}
+	}
+}
+```
+
+如下：
+
+```yaml
+spring:
+  cloud:
+    gateway:
+	  default-filters:
+	    - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+```
+
+
+
 References
 ----------
 
