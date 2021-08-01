@@ -451,8 +451,8 @@ public class DedupeResponseHeaderGatewayFilterFactory
 spring:
   cloud:
     gateway:
-	  default-filters:
-	    - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+      default-filters:
+       - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
 ```
 
 
