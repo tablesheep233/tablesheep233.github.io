@@ -154,6 +154,15 @@ scp -r root@ip:/home/app/config /home/app/ 从远程拉取
 
 
 
+### other
+
+```shell
+#创建50M大小的文件,if：输入文件（或设备名称）of：输出文件（或设备名称），bs：每次写入大小，count：写入次数
+dd if=/dev/zero of=log.txt bs=1M count=50 
+```
+
+
+
 ## 文本
 
 ### vim
@@ -254,6 +263,27 @@ firewall-cmd --list-ports --列出所有信息
 firewall-cmd --remove-port=8056/tcp --临时删除端口
 firewall-cmd --zone=public --remove-port=8005/tcp --permanent --永久删除卡对外开放的端口
 firewall-cmd --permanent --zone=public --remove-forward-port=port=8056:proto=tcp:toaddr=xxx.xx.xx.xxx:toport=3356 --删除转发规则 
+```
+
+
+
+### TCP
+
+```shell
+netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}' #统计各个状态数量
+```
+
+
+
+#### TIME_WAIT过多优化
+
+```shell
+编辑 /etc/sysctl.conf
+
+net.ipv4.tcp_tw_reuse = 1  #允许将TIME-WAIT sockets重用于新的TCP连接
+net.ipv4.tcp_tw_recycle = 1  #开启TCP连接中TIME-WAIT sockets的快速回收
+
+#或者用sysctl命令临时修改
 ```
 
 
