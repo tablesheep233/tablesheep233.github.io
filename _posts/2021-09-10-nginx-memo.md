@@ -327,3 +327,54 @@ stream {
     }
 }
 ```
+
+
+
+## auth_basic
+
+> ```shell
+> openssl passwd 密码 #生成密码
+> ```
+
+将生成的密码放在文件中，格式
+
+> username:password
+
+```nginx
+    location /api/doc.html {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Real-Port $remote_port;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://backend/doc.html;
+        auth_basic "secret";
+        auth_basic_user_file /app/nginx/security/passwd.db; #鉴权文件
+    }
+```
+
+
+
+## auth_request
+
+auth_request 鉴权模块
+
+> --with-http_auth_request_module 编译时加入
+
+```nginx
+        location /internal-auth {
+            internal;
+            proxy_pass http://127.0.0.1:10909/auth;
+            proxy_pass_request_body off;
+            proxy_set_header Content-Length "";
+        }
+
+        location /nacos/ {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Real-Port $remote_port;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_pass http://nacos;
+            auth_request /internal-auth;
+        }
+```
+

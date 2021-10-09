@@ -734,7 +734,7 @@ private class BeanFactoryAdvisorRetrievalHelperAdapter extends BeanFactoryAdviso
 }
 ```
 
-@see [InfrastructureAdvisorAutoProxyCreator](#infrastructureadvisorautoproxycreator)
+@see [InfrastructureAdvisorAutoProxyCreator](#infrastructureadvisorautoproxycreator，基础设施自动代理)
 
 
 
