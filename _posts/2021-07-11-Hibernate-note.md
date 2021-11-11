@@ -111,11 +111,11 @@ public static class Employee {
 
 ##### OneToMany使用
 
+###### mappedBy
+
 `OneToMany#mappedBy` 不能与`@JoinColumn`  `@JoinTable`一起使用，否则会报
 
 > Associations marked as mappedBy must not define database mappings like @JoinTable or @JoinColumn
-
-对于`OneToMany`，可以选择不与`@JoinColumn` 联用
 
 ```java
 Department:
@@ -133,7 +133,7 @@ main:
 
 Department department = new Department();
 department.setEmployees(employees);
-departmentRepository.sava(department); //此时employee中的department_id 并不会自动帮我们插入
+departmentRepository.save(department); //此时employee中的department_id 并不会自动帮我们插入
 
 //正确的做法
 Department department = new Department();
@@ -143,6 +143,10 @@ for (Employee employee : employees) {
 }
 departmentRepository.save(department);
 ```
+
+
+
+###### @JoinColumn
 
 也可以选择与`@JoinColumn` 联用，此时关联表（子表）中的关联字段会自动帮我们插入，只是插入的方式有些感人...（通过日志它是帮我们插入后再去update），建议还是用`OneToMany#mappedBy` 吧。
 
@@ -177,7 +181,7 @@ Hibernate: update employee set department_id=? where id=?
 List<Department> departments = load();
 for(var department : departments) {
     ...
-    var employees = department.getEmployees;
+    var employees = department.getEmployees();
     ...   
 }
 
@@ -192,15 +196,16 @@ for(var department : departments) {
 //Department的employees有记录
 Department department = load(id);
 
-//这种时候重新setEmployees,在session commit时会产生错误（当然在只有查询时并不会有问题）
+//如果直接重新setEmployees,在session commit时会产生错误（当然在只有查询时并不会有问题）
 //A collection with cascade=\"all-delete-orphan\" was no longer referenced by the owning entity instance
 department.setEmployees(employees);
 
 //正确的做法应该是
 department.getEmployees.clear();
-department.getEmployees.addAll(employees);
+department.getEmployees.addAll(employees); //此处的employee内部应该通过setter方法设置department
+//或者department.getEmployees.add(employee);
 
-//对于性能问题，如果我们既需要调用级联对象的setter,而又处于事务当中,应该通过将其变为detached 状态以避免被session提交修改
+//如果我们既需要调用级联对象的setter,而又处于事务当中,应该通过将其变为detached 状态以避免被session提交修改
 session.evict(department);
 
 //需要注意的是被evict的对象如果有关联另外的实体，在evict之前不能调用setter方法,
@@ -240,6 +245,14 @@ public static class GenderConvert implements AttributeConverter<GenderEnum, Inte
     }
 }
 ```
+
+
+
+### Querydsl
+
+可以整合[Querydsl](https://github.com/querydsl/querydsl) 实现更加方便的SQL操作
+
+
 
 
 
