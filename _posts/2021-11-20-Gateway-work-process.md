@@ -143,7 +143,7 @@ ReactiveLoadBalancerClientFilter
 //请求后续服务，会将header、body等数据发送到后续服务中
 NettyRoutingFilter
     
-//在别的Gateway后运行，将代理请求的响应写入到网关的response中
+//在别的Gateway Filter后运行（但实际上它位于这条执行链最前），将代理请求的响应写入到网关的response中
 NettyWriteResponseFilter
 ```
 
