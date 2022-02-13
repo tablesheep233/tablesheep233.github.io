@@ -1,4 +1,14 @@
-
+---
+layout:     note
+title:      "shell command"
+subtitle:   " \"shell command\""
+author:     "tablesheep"
+catalog: true
+hide-in-nav: true
+header-style: text
+tags:
+- note
+---
 
 ## 变量
 
@@ -193,9 +203,3 @@ if[[ ((a > 1)) || ((b > 1)) ]];then
 fi
 
 ```
-
-
-
-
-
-## References

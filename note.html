@@ -1,0 +1,34 @@
+---
+layout: default
+title: "Note"
+description: "「记一记」"
+header-img: "img/about-bg.jpg"
+---
+
+<!-- Page Header -->
+{% include intro-header.html type='page' short=true %}
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- Tags (as filter) -->
+
+            <!-- Article List -->
+            <div class="mini-post-list js-result">
+                <div class="post-preview item">
+                {% for page in site.pages %}
+                {% if page.layout == 'note' %}
+                    <a href="{{ page.url | prepend: site.baseurl }}">
+                        <h2 class="post-title">
+                            {{ page.title }}
+                        </h2>
+                    </a>
+                    <hr>
+                {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
