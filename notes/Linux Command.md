@@ -1,15 +1,14 @@
 ---
-layout:     post
-title:      "Linux Command"
-subtitle:   " \"Linux命令备忘\""
-date:       2021-07-17 21:10:00
-header-style: text
+layout:     note
+title:      "Linux command"
+subtitle:   " \"Linux command\""
 author:     "tablesheep"
 catalog: true
+hide-in-nav: true
+header-style: text
 tags:
-    - Java
-    - Command
-    - Linux
+- note
+- Linux
 ---
 
 >  “Linux命令备忘”

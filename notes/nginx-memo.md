@@ -1,13 +1,14 @@
 ---
-layout:     post
+layout:     note
 title:      "nginx memo"
-subtitle:   " \"nginx 备忘\""
+subtitle:   " \"nginx memo\""
 author:     "tablesheep"
-date:       2021-09-10 20:10:00
-header-style: text
 catalog: true
+hide-in-nav: true
+header-style: text
 tags:
-    - nginx
+- note
+- nginx
 ---
 
 

@@ -1,15 +1,14 @@
 ---
-layout:     post
-title:      "Windows Command"
-subtitle:   " \"Windows命令备忘\""
-date:       2021-07-17 21:10:00
-header-style: text
+layout:     note
+title:      "Windows command"
+subtitle:   " \"Windows command\""
 author:     "tablesheep"
 catalog: true
+hide-in-nav: true
+header-style: text
 tags:
-    - Java
-    - Command
-    - Windows
+- note
+- Windows
 ---
 
 >  “Windows命令备忘”

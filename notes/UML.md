@@ -1,13 +1,16 @@
 ---
-layout:     post
+layout:     note
 title:      "UML"
-subtitle:   " \"记录一些UML\""
-date:       2021-06-21 18:30:00
+subtitle:   " \"UML\""
 author:     "tablesheep"
 catalog: true
+hide-in-nav: true
+header-style: text
 tags:
-    - UML
+- note
+- UML
 ---
+
 
 
 
