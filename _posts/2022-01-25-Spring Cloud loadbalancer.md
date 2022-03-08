@@ -234,5 +234,5 @@ Spring Cloud 提供了许多的`ServiceInstanceListSupplier`
 
 ## References
 
--<https://docs.spring.io/spring-cloud-commons/docs/current/reference/html/>
--<https://github.com/spring-cloud/spring-cloud-commons>
+- <https://docs.spring.io/spring-cloud-commons/docs/current/reference/html/>
+- <https://github.com/spring-cloud/spring-cloud-commons>

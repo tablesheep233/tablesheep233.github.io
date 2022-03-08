@@ -318,4 +318,4 @@ class ConfigurationClassBeanDefinitionReader {
 
 ## References
 
--<https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-basic-concepts>
+- <https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-basic-concepts>
