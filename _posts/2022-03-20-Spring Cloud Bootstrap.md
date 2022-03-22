@@ -195,8 +195,7 @@ SpringApplication#run -> prepareEnvironment -> SpringApplicationRunListeners#env
 ```
 
 
-
-而`BootstrapApplicationListener`本身就是`ApplicationListener`，所以会被加载进去。
+开始分析，`BootstrapApplicationListener`本身就是`ApplicationListener`，同时在`spring-cloud-context`中有配置，所以会被加载进去。
 
 ```java
 public class BootstrapApplicationListener implements ApplicationListener<ApplicationEnvironmentPreparedEvent>, Ordered {
@@ -505,6 +504,9 @@ public class PropertySourceBootstrapConfiguration
 }
 ```
 
+### 一图总结
+
+![spring-cloud-bootstrap-flow](/img/post/spring-cloud-bootstrap-flow.jpg)
 
 
 ### References
