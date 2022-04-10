@@ -1,0 +1,25 @@
+<div onclick="scrollToTop()">
+    <img src="/img/scroll-top.png" class="cat" alt="">
+</div>
+<style>
+    .cat {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 191px;
+        height: 209px;
+    }
+</style>
+<script>
+    const scrollToTop = () => {
+        let c = document.documentElement.scrollTop || document.body.scrollTop;
+        if (c > 0) {
+            window.requestAnimationFrame(scrollToTop);
+            window.scrollTo(0, c - c / 8);
+        }
+    }
+
+    // function toTop() {
+    //     window.scrollTo(0, 0)
+    // }
+</script>
