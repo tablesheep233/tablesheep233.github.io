@@ -14,7 +14,8 @@ tags:
 
 ## Note
 
-- **[Netty learn]( /notes/Netty%20learn )**
+- **[Netty learn]( /notes/netty/Netty%20learn )**
+- **[Netty 粘包&拆包]( /notes/netty/Netty 粘包&拆包 )**
 
 
 

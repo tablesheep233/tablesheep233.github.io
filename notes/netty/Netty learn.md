@@ -83,9 +83,7 @@ ctx.channel().eventLoop().scheduleAtFixedRate();
 
 
 
-## ChannelHandler
-
-**@ChannelHandler.Sharable** 
+## **@ChannelHandler.Sharable** 
 
 用于标识ChannelHandler是否为共享实例，需要注意线程安全问题，使用🌰
 
