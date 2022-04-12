@@ -14,71 +14,27 @@ tags:
 
 ## Basic
 
-**StringEncoder、StringDecoder**
-
-字符串编解码器
-
-
-
-**IdleStateHandler**
-
-空闲状态处理，构造函数可以指定读、写、读写操作多久没发生，然后向后面的`ChannelHandler`发送`IdleStateEvent`，后面的`ChannelHandler`需要实现`ChannelInboundHandler#userEventTriggered`方法处理
+| Class                            | desc                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| **StringEncoder、StringDecoder** | 字符串编解码器                                               |
+| **IdleStateHandler**             | 空闲状态处理（心跳检测），构造函数可以指定读、写、读写操作多久没发生，然后向后面的`ChannelHandler`发送`IdleStateEvent`，后面的`ChannelHandler`需要实现`ChannelInboundHandler#userEventTriggered`方法处理 |
 
 
 
 ## HTTP
 
-**HttpRequestDecoder**
-
-http request 解码器，用于服务端入站流量
-
-
-
-**HttpResponseEncoder**
-
-http response 编码器，用于服务端出站流量
-
-
-
-**HttpServerCodec**
-
-http服务端编解码器，通过`CombinedChannelDuplexHandler`组合`HttpRequestDecoder`、`HttpResponseEncoder`
-
-
-
-**HttpRequestEncoder**
-
-http requeset编码器，用于客户端出站流量
-
-
-
-**HttpResponseDecoder**
-
-http response解码器，用于客户端入站流量
-
-
-
-**HttpClientCodec**
-
-http 客户端编解码器，通过`CombinedChannelDuplexHandler`组合了`HttpRequestEncoder`、`HttpResponseDecoder`
-
-
-
-**HttpObjectAggregator**
-
-Http 消息聚合器，可以将分块的`HttpMessage`和`HttpContent`聚合到单个的`FullHttpRequest`或`FullHttpResponse`中，用于处理Response时将它插入`HttpResponseDecoder`之后，处理Request时将它插在`HttpRequestDecoder`和`HttpResponseEncoder`之后
-
-
-
-**HttpContentCompressor**
-
-Http 内容压缩，用于服务端，支持`gzip`、`deflate`、`br`压缩，同时支持`Accept-Encoding`请求头协商
-
-
-
-**HttpContentDecompressor**
-
-Http 内容解压，用于客户端
+| Class                       | desc                                                         |
+| --------------------------- | ------------------------------------------------------------ |
+| **HttpRequestDecoder**      | http request 解码器，用于服务端入站流量                      |
+| **HttpResponseEncoder**     | http response 编码器，用于服务端出站流量                     |
+| **HttpServerCodec**         | http服务端编解码器，通过`CombinedChannelDuplexHandler`组合`HttpRequestDecoder`、`HttpResponseEncoder` |
+| **HttpRequestEncoder**      | http requeset编码器，用于客户端出站流量                      |
+| **HttpResponseDecoder**     | http response解码器，用于客户端入站流量                      |
+| **HttpClientCodec**         | http 客户端编解码器，通过`CombinedChannelDuplexHandler`组合了`HttpRequestEncoder`、`HttpResponseDecoder` |
+| **HttpObjectAggregator**    | Http 消息聚合器，可以将分块的`HttpMessage`和`HttpContent`聚合到单个的`FullHttpRequest`或`FullHttpResponse`中，用于处理Response时将它插入`HttpResponseDecoder`之后，处理Request时将它插在`HttpRequestDecoder`和`HttpResponseEncoder`之后 |
+| **HttpContentCompressor**   | Http 内容压缩，用于服务端，支持`gzip`、`deflate`、`br`压缩，同时支持`Accept-Encoding`请求头协商 |
+| **HttpContentDecompressor** | Http 内容解压，用于客户端                                    |
+|                             |                                                              |
 
 
 
@@ -152,9 +108,11 @@ public class DefaultChannelInitializer extends ChannelInitializer<SocketChannel>
 }
 ```
 
-*DefaultChannelPipeline*
+
 
 对于`@ChannelHandler.Sharable`注解，Netty 仅仅只是在添加`ChannelHandler`时检查这个handler是否共享以及是否第一次添加，不满足其一则在报错
+
+*DefaultChannelPipeline*
 
 ```java
 private static void checkMultiplicity(ChannelHandler handler) {
