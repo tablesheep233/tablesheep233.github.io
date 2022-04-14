@@ -1,7 +1,7 @@
 ---
 layout:     note
-title:      "netty learn"
-subtitle:   " \"netty learn\""
+title:      "netty 解决粘包"
+subtitle:   " \"netty 解决粘包\""
 author:     "tablesheep"
 catalog: true
 hide-in-nav: true
