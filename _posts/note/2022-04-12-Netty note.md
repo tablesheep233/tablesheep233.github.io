@@ -16,6 +16,7 @@ tags:
 
 - **[Netty learn]( /notes/netty/Netty%20learn )**
 - **[Netty 粘包&拆包]( /notes/netty/Netty 粘包&拆包 )**
+- **[Netty 设计模式]( /notes/netty/Netty 设计模式 )**
 
 
 

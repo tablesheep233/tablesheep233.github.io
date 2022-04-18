@@ -1,10 +1,11 @@
 ---
-layout:     post
+layout:     note
 title:      "kafka 避免消息丢失"
 subtitle:   " \"kafka 避免消息丢失\""
-date:       2022-04-15 00:00:00
 author:     "tablesheep"
 catalog: true
+hide-in-nav: true
+header-style: text
 tags:
 - kafka
 - note
