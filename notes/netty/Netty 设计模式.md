@@ -13,7 +13,9 @@ tags:
 
 
 
-### 工厂模式 - ChannelFactory
+### 工厂模式 
+
+#### ChannelFactory
 
 在使用 `Netty` 时都会设置 `Bootstrap` 的`Channel` 类型
 
@@ -70,6 +72,29 @@ public class ReflectiveChannelFactory<T extends Channel> implements ChannelFacto
 
 
 
+#### EventExecutorChooserFactory
+
+在`EventLoopGroup`创建`EventExecutorChooser`时使用了工厂模式
+
+```java
+public final class DefaultEventExecutorChooserFactory implements EventExecutorChooserFactory {
+......
+
+    //根据数量创建不同的EventExecutorChooser
+    @Override
+    public EventExecutorChooser newChooser(EventExecutor[] executors) {
+        if (isPowerOfTwo(executors.length)) {
+            return new PowerOfTwoEventExecutorChooser(executors);
+        } else {
+            return new GenericEventExecutorChooser(executors);
+        }
+    }
+    ......
+}
+```
+
+
+
 ### 模板模式
 
 #### AbstractBootstrap#init(Channel channel)
@@ -118,6 +143,22 @@ protected MultithreadEventExecutorGroup(int nThreads, Executor executor,
 }
 
 protected abstract EventExecutor newChild(Executor executor, Object... args) throws Exception;
+```
+
+
+
+### 单例模式
+
+#### DefaultEventExecutorChooserFactory
+
+```java
+public final class DefaultEventExecutorChooserFactory implements EventExecutorChooserFactory {
+
+    public static final DefaultEventExecutorChooserFactory INSTANCE = new DefaultEventExecutorChooserFactory();
+
+    private DefaultEventExecutorChooserFactory() { }
+    ......
+}
 ```
 
 
